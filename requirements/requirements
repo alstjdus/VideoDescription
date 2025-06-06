@@ -1,1 +1,24 @@
+# 딥러닝 프레임워크
+tensorflow==2.11.0
+torch==1.13.1
+torchvision==0.14.1
+torchaudio==0.13.1
 
+# 필수 패키지
+numpy==1.26.4
+pandas==2.1.4
+fsspec==2024.12.0
+opencv-python==4.7.0.72
+
+# DeepFace 및 OCR
+deepface==0.0.79
+easyocr==1.7.1
+
+# YOLOv8 객체 인식
+ultralytics==8.1.25
+yt-dlp
+
+# 기타
+matplotlib
+tf-keras
+scenedetect

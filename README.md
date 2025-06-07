@@ -9,7 +9,7 @@
 
 - ✨ [Features](#-features--주요-기능)
 - 💻 [Installation](#-installation--설치-방법)
-- 📂 [Data](#-data-데이터)
+- 📂 [Data](#data-데이터)
 - 🛠️ [Preprocessing](#preprocessing-폴더)
 - 🧠 [Model](#model-폴더)
 - 🏗️ [Pipeline](#pipeline-폴더)

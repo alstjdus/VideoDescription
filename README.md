@@ -7,12 +7,12 @@
 
 ## 🧩 Table of Contents
 
-- ✨ [Features](#-features--주요-기능)
-- 💻 [Installation](#-installation--설치-방법)
-- 📂 [Data](#data-데이터)
-- 🛠️ [preprocessing 폴더](#preprocessing-폴더)
-- 🧠 [model 폴더](#model-폴더)
-- 🏗️ [pipeline 폴더](#pipeline-폴더)
+- ✨ [Features / 주요 기능](#-features--주요-기능)
+- 💻 [Installation / 설치 방법](#-installation--설치-방법)
+- 📂 [Data 데이터](#-data-데이터)
+- 🛠️ [preprocessing 폴더](#-preprocessing-폴더)
+- 🧠 [model 폴더](#-model-폴더)
+- 🏗️ [pipeline 폴더](#-pipeline-폴더)
 - 🔄 [Architecture](#-architecture--전체-구조)
 - 🤝 [Contribution](#-contribution--기여-방법)
 - 🎉 [Demo](#-demo)

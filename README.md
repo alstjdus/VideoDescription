@@ -48,7 +48,7 @@
 ```python
 IMAGE_DIR = "path/to/keyframes"
 JSONL_PATH = "path/to/captions.jsonl"
-
+```
 
 ---
 

@@ -78,6 +78,12 @@ train_phi2_lora.py는 phi-2 모델을 LoRA(저자원 어댑터) 기법으로 미
 
 ---
 
+### Caption Selector using phi-2 + LoRA and SBERT: caption_selector.py
+- 여러 후보 자막 후보(candidates) 중에서 Microsoft phi-2 모델에 LoRA adapter를 적용한 모델로 가장 적절한 자막을 선택합니다.
+- 선택된 자막에 대해 SBERT 임베딩 기반 의미 중복 제거를 수행하여 최종 자막을 추출합니다.
+
+---
+
 ### 🔧 설정
 스크립트 상단에서 다음 경로를 사용자 환경에 맞게 수정해야 합니다:
 
@@ -88,7 +94,8 @@ truth_path = "path/to/ground_truth.jsonl"  # 정답 자막이 포함된 JSONL �
 candidates_path = "path/to/caption_candidates.json"  # 후보 자막들이 포함된 JSON 파일 (image, captions 필드)
 output_path = "path/to/output_sft_data.jsonl"  # 생성된 SFT 학습 데이터가 저장될 경로
 OUTPUT_DIR = "path/to/save/phi2_lora_adapter"  # LoRA 학습 결과 저장 디렉토리
-
+CANDIDATE_PATH = "path/to/candidate.json"  # 사용자가 직접 설정할 경로
+OUTPUT_PATH = "path/to/final_caption.json"  # 결과 저장할 경로
 jsonl_files = [
     "path/to/sft/drama1.jsonl",
     "path/to/sft/drama2.jsonl",

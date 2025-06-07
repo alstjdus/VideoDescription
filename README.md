@@ -37,7 +37,7 @@
 
 ---
 
-## Model 폴더
+## model 폴더
 
 ---
 
@@ -102,6 +102,82 @@ jsonl_files = [
     # ... 학습에 사용할 SFT JSONL 파일들
 ]
 ```
+
+---
+
+## pipeline 폴더
+
+---
+
+### extract_dialogue_whisper.py
+Whisper 모델을 사용하여 동영상 파일에서 대사를 추출하고, 이를 JSON 형식으로 저장합니다.
+
+- 사용 모델: `openai/whisper-large-v2`
+- 입력: mp4 형식의 동영상 파일 (`testvideo.mp4`)
+- 출력: `video_script_large.json` (자막 JSON 파일)
+- 주요 구성:
+  - ffmpeg를 통해 오디오 추출
+  - Whisper로 대사 인식
+  - `timestamp`, `dialogue` 구조의 JSON으로 저장
+
+---
+
+### 🧠 process_frame_ocr_deepface.py
+영상에서 추출된 키프레임 이미지에 대해 문자인식(OCR)과 얼굴 감정 분석을 동시에 수행하는 모듈입니다.
+
+- 입력:
+  - 키프레임 이미지 폴더 (`./keyframes_pyscenedetect/testvideo/`)
+  - 타임스탬프 정보가 포함된 JSON (`keyframes_timestamp.json`)
+- 출력:
+  - `deepface_ocr.json`: 각 이미지별 OCR 텍스트 및 감정 분석 결과 포함
+
+- 주요 라이브러리:
+  - EasyOCR (텍스트 인식)
+  - DeepFace (감정 인식)
+
+---
+
+### 🧠 YOLO 기반 객체 인식: `run_yolo_on_video.py`
+이 스크립트는 YOLOv8(nano 모델)을 활용하여 동영상의 각 구간(자막 기반 타임스탬프)에 등장하는 객체를 탐지합니다. 결과는 기존 자막 JSON (`deepface_ocr.json`)에 `"yolo"` 필드로 추가됩니다.
+
+- 입력:
+  - `testvideo.mp4`: 객체 인식을 수행할 영상 파일
+  - `deepface_ocr.json`: 기존 자막/딥페이스/OCR 등의 정보가 포함된 JSON
+- 출력:
+  - `yolo_results.json`: YOLO 객체 인식 결과가 포함된 JSON
+
+- 주요 사용 라이브러리:
+  - `ultralytics` (YOLOv8)
+
+---
+
+### 🎞️ Scene Detection 및 Keyframe 추출: `keyframe_extractor.py`
+이 스크립트는 영상 내 장면 전환(Scene Change)을 감지하고, 각 장면의 시작 시점의 프레임을 이미지로 저장합니다. 또한 각 키프레임의 타임스탬프 범위를 포함하는 메타데이터를 JSON 파일로 저장합니다.
+
+- 입력:
+  - `testvideo.mp4`: 분석할 영상 파일
+- 출력:
+  - 키프레임 이미지: `keyframes_pyscenedetect/testvideo/frame_0000.png` 등
+  - 타임스탬프 JSON: `keyframes_pyscenedetect/testvideo/keyframes_timestamp.json`
+
+- 주요 사용 라이브러리:
+  - `PySceneDetect`
+
+---
+
+### 🔗 YOLO + 자막 병합 스크립트: `generate_final_input_json.py`
+이 스크립트는 YOLOv8 객체 인식 결과(`yolo_results.json`)와 Whisper 음성 자막 결과(`video_script_large.json`)를 타임스탬프 기준으로 병합합니다. 결과로 생성되는 `final_input.json`은 각 객체 탐지 시간대에 대응하는 자막(대사)을 포함하며, 멀티모달 비디오 설명 시스템의 입력으로 사용됩니다.
+
+- 입력:
+  - `yolo_results.json`: YOLO 객체 탐지 결과
+  - `video_script_large.json`: Whisper로부터 추출된 자막 JSON
+- 출력:
+  - `final_input.json`: 자막이 병합된 최종 JSON
+
+---
+
+### Video Description Pipeline: 'video_description_with_tts.py'
+이 파이프라인은 영상 파일과 자막, 대사 데이터를 병합하여 Melo TTS를 사용해 해설 음성을 생성하고, 원본 영상에 해설 음성을 합성하여 최종 영상을 출력합니다.
 
 ---
 

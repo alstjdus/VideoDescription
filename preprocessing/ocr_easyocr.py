@@ -1,4 +1,3 @@
-!pip install easyocr
 import os
 import cv2
 import json

@@ -56,7 +56,7 @@
 
 이 스크립트는 생성된 자막 후보들 중에서 **정답 자막(ground truth caption)**과 가장 유사한 문장을 선택하여, **SFT 학습용 JSONL 형식**으로 변환합니다.
 
-#### ✅ 주요 기능
+✅ 주요 기능
 - `sentence-transformers` 기반 KoSBERT를 사용하여 cosine similarity 계산
 - 3개의 후보 자막 중에서 정답 자막과 가장 유사한 것을 자동 선택
 - prompt/response 형식으로 SFT용 jsonl 출력
@@ -68,7 +68,7 @@
 train_phi2_lora.py는 phi-2 모델을 LoRA(저자원 어댑터) 기법으로 미세조정(fine-tuning)하기 위한 스크립트입니다.
 본 프로젝트의 드라마 해설 데이터셋(SFT 데이터)을 사용해, 사전학습된 대형 언어 모델을 효율적으로 적응시켜 자연스러운 캡션 생성 성능을 향상시키는 역할을 합니다.
 
-#### ✅ 주요 기능
+✅ 주요 기능
 - Microsoft의 phi-2 사전학습 모델 불러오기
 - PEFT 라이브러리를 이용한 LoRA adapter 설정 (저비용 파인튜닝)
 - 여러 JSONL 포맷의 SFT 학습 데이터를 하나로 병합하여 처리

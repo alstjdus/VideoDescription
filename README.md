@@ -38,7 +38,12 @@
 ---
 ## 📜 Caption Generation Script (generate_caption_candidates_basic.py, generate_caption_candidates_strict.py)
 
-이 스크립트는 HyperCLOVA X Vision 모델을 사용하여, 주어진 키프레임 이미지와 부가 정보를 기반으로 **30자 이내 단정형 자막 후보** 3개씩을 생성합니다.
+이 스크립트는 HyperCLOVA X Vision 모델을 사용하여, 주어진 키프레임 이미지와 부가 정보를 기반으로 **자막 후보** 3개씩을 생성합니다.
+- generate_caption_candidates_basic.py:
+최소한의 프롬프트 규칙을 적용하여 비교적 자유롭게 자막 후보를 생성
+
+- generate_caption_candidates_strict.py:
+자막 작성 원칙을 엄격하게 적용하여 더 정제된 자막 후보를 생성, 현재 시제, '~다' 말투, 관찰 기반 서술 등 명시적 지침 포함, 부가 정보(대사, OCR, YOLO 객체, 얼굴 표정 등)를 활용해 더 정교한 프롬프트 구성
 
 ---
 

@@ -36,6 +36,21 @@
 - 🧵 **영상 통합**: 생성된 TTS 음성을 원본 영상에 삽입하여 해설 포함 영상 출력
 
 ---
+## 📜 Caption Generation Script (generate_caption_candidates_basic.py, generate_caption_candidates_strict.py)
+
+이 스크립트는 HyperCLOVA X Vision 모델을 사용하여, 주어진 키프레임 이미지와 부가 정보를 기반으로 **30자 이내 단정형 자막 후보** 3개씩을 생성합니다.
+
+---
+
+### 🔧 설정
+스크립트 상단에서 다음 경로를 사용자 환경에 맞게 수정해야 합니다:
+
+```python
+IMAGE_DIR = "path/to/keyframes"
+JSONL_PATH = "path/to/captions.jsonl"
+
+
+---
 
 ## 💻 Installation / 설치 방법
 

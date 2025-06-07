@@ -75,7 +75,6 @@ cd VideoDescription
   - 이후 bbox 제거, confidence threshold 필터링된 JSON도 생성  
 
 - 특징  
-  - 프레임별 객체 검출 결과에 대해 Non-Maximum Suppression (NMS) 적용  
   - confidence threshold 0.9 이상 필터링 가능  
   - bbox 제거 후 클래스 정보만 별도 저장
 
@@ -206,7 +205,7 @@ Whisper 모델을 사용하여 동영상 파일에서 대사를 추출하고, �
 ---
 
 ### 🧠 process_frame_ocr_deepface.py
-영상에서 추출된 키프레임 이미지에 대해 문자인식(OCR)과 얼굴 감정 분석을 동시에 수행하는 모듈입니다.
+영상에서 추출된 키프레임 이미지에 대해 문자인식(OCR)과 얼굴 감정 분석(Deepface)을 동시에 수행하는 모듈입니다.
 
 - 입력:
   - 키프레임 이미지 폴더 (`./keyframes_pyscenedetect/testvideo/`)
@@ -249,7 +248,7 @@ Whisper 모델을 사용하여 동영상 파일에서 대사를 추출하고, �
 ---
 
 ### 🔗 YOLO + 자막 병합 스크립트: `generate_final_input_json.py`
-이 스크립트는 YOLOv8 객체 인식 결과(`yolo_results.json`)와 Whisper 음성 자막 결과(`video_script_large.json`)를 타임스탬프 기준으로 병합합니다. 결과로 생성되는 `final_input.json`은 각 객체 탐지 시간대에 대응하는 자막(대사)을 포함하며, 멀티모달 비디오 설명 시스템의 입력으로 사용됩니다.
+이 스크립트는 YOLOv8 객체 인식 결과(`yolo_results.json`)와 Whisper 음성 자막 결과(`video_script_large.json`)를 타임스탬프 기준으로 병합합니다. 결과로 생성되는 `final_input.json`은 각 객체 탐지 시간대에 대응하는 자막(대사)을 포함하며, 비디오 설명 시스템의 입력으로 사용됩니다.
 
 - 입력:
   - `yolo_results.json`: YOLO 객체 탐지 결과

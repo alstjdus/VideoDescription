@@ -7,16 +7,16 @@
 
 ## 🧩 Table of Contents
 
-- [Features](#-features--주요-기능)
-- [Installation](#-installation--설치-방법)
-- [Data](#-data--데이터)
-- [Preprocessing](#-preprocessing--폴더)
-- [Model](#-model--폴더)
-- [Pipeline](#-pipeline--폴더)
-- [Architecture](#-architecture--전체-구조)
-- [Contribution](#-contribution--기여-방법)
-- [Demo](#-demo)
-- [License](#-license)
+- ✨ [Features](#-features--주요-기능)
+- 💻 [Installation](#-installation--설치-방법)
+- 📂 [Data](#-data--데이터)
+- 🛠️ [Preprocessing](#-preprocessing--폴더)
+- 🧠 [Model](#-model--폴더)
+- 🏗️ [Pipeline](#-pipeline--폴더)
+- 🔄 [Architecture](#-architecture--전체-구조)
+- 🤝 [Contribution](#-contribution--기여-방법)
+- 🎉 [Demo](#-demo)
+- 📜 [License](#-license)
 
 ---
 
@@ -52,13 +52,13 @@ cd VideoDescription
 
 ---
 
-## 데이터
+## 📂 데이터
 본 프로젝트에서 사용한 드라마 해설 데이터셋은 프로젝트 및 연구 목적으로 자체 구축하였으며, 원본 자료는 넷플릭스의 시각장애인용 화면 해설을 참고하였습니다. 
 데이터셋에는 흑백요리사, 중증외상센터, 엄마친구아들, 슬기로운의사생활, 수리남, 사랑의 불시착, 비밀의 숲, 닭강정, 닥터슬럼프, 나의 해방일지에서 총 12화 분량의 드라마 해설이 포함되어 있습니다. 각 드라마의 srt 파일을 추출해 시각장애인 화면 해설 부분을 {} 표시로 구분하여 대사 사이에 삽입하는 방식으로 구성하였습니다. 해당 데이터는 저작권 문제로 공개 저장소에 포함하지 않았으며 연구 목적에 한해 사용하였습니다.
 
 ---
 
-## preprocessing 폴더
+## 🛠️ preprocessing 폴더
 
 ---
 
@@ -120,7 +120,7 @@ cd VideoDescription
 
 ---
 
-## model 폴더
+## 🧠 model 폴더
 
 ---
 
@@ -188,11 +188,11 @@ jsonl_files = [
 
 ---
 
-## pipeline 폴더
+## 🏗️ pipeline 폴더
 
 ---
 
-### extract_dialogue_whisper.py
+### 🧠 extract_dialogue_whisper.py
 Whisper 모델을 사용하여 동영상 파일에서 대사를 추출하고, 이를 JSON 형식으로 저장합니다.
 
 - 사용 모델: `openai/whisper-large-v2`

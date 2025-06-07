@@ -36,7 +36,12 @@
 - 🧵 **영상 통합**: 생성된 TTS 음성을 원본 영상에 삽입하여 해설 포함 영상 출력
 
 ---
-## 📜 Caption Generation Script (generate_caption_candidates_basic.py, generate_caption_candidates_strict.py)
+
+## Model 폴더
+
+---
+
+### 📜 Caption Generation Script (generate_caption_candidates_basic.py, generate_caption_candidates_strict.py)
 
 이 스크립트는 HyperCLOVA X Vision 모델을 사용하여, 주어진 키프레임 이미지와 부가 정보를 기반으로 **자막 후보** 3개씩을 생성합니다.
 - generate_caption_candidates_basic.py:
@@ -58,6 +63,21 @@
 
 ---
 
+### 🛠️ Fine-tuning Script: train_phi2_lora.py
+
+train_phi2_lora.py는 phi-2 모델을 LoRA(저자원 어댑터) 기법으로 미세조정(fine-tuning)하기 위한 스크립트입니다.
+본 프로젝트의 드라마 해설 데이터셋(SFT 데이터)을 사용해, 사전학습된 대형 언어 모델을 효율적으로 적응시켜 자연스러운 캡션 생성 성능을 향상시키는 역할을 합니다.
+
+#### ✅ 주요 기능
+- Microsoft의 phi-2 사전학습 모델 불러오기
+- PEFT 라이브러리를 이용한 LoRA adapter 설정 (저비용 파인튜닝)
+- 여러 JSONL 포맷의 SFT 학습 데이터를 하나로 병합하여 처리
+- prompt와 response를 연결한 텍스트 토크나이징
+- Huggingface Trainer 기반 학습 파이프라인 구성
+- 학습 중 체크포인트 저장 및 FP16 mixed precision 지원
+
+---
+
 ### 🔧 설정
 스크립트 상단에서 다음 경로를 사용자 환경에 맞게 수정해야 합니다:
 
@@ -67,6 +87,13 @@ JSONL_PATH = "path/to/captions.jsonl"
 truth_path = "path/to/ground_truth.jsonl"  # 정답 자막이 포함된 JSONL 파일 (image, caption 필드)
 candidates_path = "path/to/caption_candidates.json"  # 후보 자막들이 포함된 JSON 파일 (image, captions 필드)
 output_path = "path/to/output_sft_data.jsonl"  # 생성된 SFT 학습 데이터가 저장될 경로
+OUTPUT_DIR = "path/to/save/phi2_lora_adapter"  # LoRA 학습 결과 저장 디렉토리
+
+jsonl_files = [
+    "path/to/sft/drama1.jsonl",
+    "path/to/sft/drama2.jsonl",
+    # ... 학습에 사용할 SFT JSONL 파일들
+]
 ```
 
 ---

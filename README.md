@@ -3,6 +3,17 @@
 **AI-powered system that generates and refines audio descriptions from drama videos to recreate accessible content for the visually impaired.**  
 **시각장애인을 위한 접근 가능한 콘텐츠 제작을 위한 AI 기반 드라마 영상 해설 자동 생성 시스템입니다.**
 
+## 프로젝트 개요
+AI 기반 드라마 영상 해설 자동 생성 시스템으로, 시각장애인을 위한 접근성 높은 콘텐츠 제작을 목표로 합니다.
+영상에서 객체 인식, 텍스트 추출, 감정 분석을 수행하고, 이를 바탕으로 자연스러운 자막 생성 및 해설 음성 합성을 진행합니다.
+
+## 폴더 설명
+- preprocessing 폴더: 영상에서 객체, 텍스트, 감정 등 주요 정보를 추출하는 전처리 작업을 수행하는 코드 모음
+- model 폴더: 자막 생성 및 학습에 필요한 모델 스크립트와 데이터 생성 도구
+- pipeline 폴더: 전체 영상 해설 생성 프로세스를 연결하는 파이프라인 스크립트
+- requirements 폴더: 프로젝트 실행에 필요한 라이브러리와 환경 설정
+- web 폴더: 최종 사용자 인터페이스 및 웹 배포를 위한 프론트엔드와 백엔드 코드
+
 ---
 
 ## 🧩 Table of Contents
@@ -14,7 +25,7 @@
 - 🧠 [model 폴더](#-model-폴더)
 - 🏗️ [pipeline 폴더](#-pipeline-폴더)
 - 🔄 [Architecture](#-architecture--전체-구조)
-- 🤝 [Contribution](#-contribution--기여-방법)
+- 🤝 [Contribution](#-contribution--기여점)
 - 🎉 [Demo](#-demo)
 - 📜 [License](#-license)
 
@@ -260,3 +271,39 @@ Whisper 모델을 사용하여 동영상 파일에서 대사를 추출하고, �
 
 ### Video Description Pipeline: 'video_description_with_tts.py'
 이 파이프라인은 영상 파일과 자막, 대사 데이터를 병합하여 Melo TTS를 사용해 해설 음성을 생성하고, 원본 영상에 해설 음성을 합성하여 최종 영상을 출력합니다.
+
+---
+
+## 🔄 Architecture / 전체 구조
+
+Input MP4 Video
+    ↓
+Key Frame Extraction
+    ↓
+[Preprocessing]
+ - YOLOv8 Object Detection
+ - EasyOCR Text Recognition
+ - DeepFace Emotion Analysis
+ - Whisper Audio to Text
+    ↓
+Data 통합 (Dialogue + OCR + YOLO + DeepFace)
+    ↓
+Caption Candidate Generation (HyperCLOVA-X Vision)
+    ↓
+Caption Refinement (phi-2 LoRA Fine-tuning)
+    ↓
+Caption Selection & Deduplication (phi-2 + SBERT)
+    ↓
+TTS 음성 변환
+    ↓
+Final Video + Audio Merging (음성 해설 포함 영상 출력)
+
+---
+
+## 🤝 Contribution / 기여점
+- 시각장애인의 미디어 접근성을 높이기 위해 AI 기반 영상 해설 생성 시스템을 개발하였습니다.
+- 영상의 주요 장면과 내용을 자동으로 분석하여 자연스러운 해설 문장을 생성하는 기술을 구현하였습니다.
+- 다양한 영상 콘텐츠에 적용 가능한 범용성 높은 영상 이해 및 해설 생성 파이프라인을 구축하였습니다.
+- 영상 내 사람, 행동, 장면 전환 등 다양한 시각 정보를 효과적으로 인식하고 설명하는 멀티모달 AI 모델을 설계하였습니다.
+- 생성된 해설을 음성으로 변환하여 시각장애인이 쉽고 편리하게 영상 정보를 청취할 수 있도록 지원합니다.
+- 본 연구는 관련 분야 및 장애인 접근성 개선 분야의 발전에 기여할 것으로 기대됩니다.

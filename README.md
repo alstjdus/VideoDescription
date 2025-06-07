@@ -47,12 +47,26 @@
 
 ---
 
+### 🧠 SFT 데이터 생성: `generate_sft_data_by_similarity.py`
+
+이 스크립트는 생성된 자막 후보들 중에서 **정답 자막(ground truth caption)**과 가장 유사한 문장을 선택하여, **SFT 학습용 JSONL 형식**으로 변환합니다.
+
+#### ✅ 주요 기능
+- `sentence-transformers` 기반 KoSBERT를 사용하여 cosine similarity 계산
+- 3개의 후보 자막 중에서 정답 자막과 가장 유사한 것을 자동 선택
+- prompt/response 형식으로 SFT용 jsonl 출력
+
+---
+
 ### 🔧 설정
 스크립트 상단에서 다음 경로를 사용자 환경에 맞게 수정해야 합니다:
 
 ```python
 IMAGE_DIR = "path/to/keyframes"
 JSONL_PATH = "path/to/captions.jsonl"
+truth_path = "path/to/ground_truth.jsonl"  # 정답 자막이 포함된 JSONL 파일 (image, caption 필드)
+candidates_path = "path/to/caption_candidates.json"  # 후보 자막들이 포함된 JSON 파일 (image, captions 필드)
+output_path = "path/to/output_sft_data.jsonl"  # 생성된 SFT 학습 데이터가 저장될 경로
 ```
 
 ---

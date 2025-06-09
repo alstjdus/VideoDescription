@@ -26,8 +26,6 @@ AI 기반 드라마 영상 해설 자동 생성 시스템으로, 시각장애인
 - 🏗️ [pipeline 폴더](#-pipeline-폴더)
 - 🔄 [Architecture](#-architecture--전체-구조)
 - 🤝 [Contribution](#-contribution--기여점)
-- 🎉 [Demo](#-demo)
-- 📜 [License](#-license)
 
 ---
 

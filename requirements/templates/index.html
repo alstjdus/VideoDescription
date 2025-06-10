@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Soft Landing Page by Tooplate</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.carousel.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tooplate-style.css') }}">
+</head>
+<body>
+
+    <!-- PRE LOADER -->
+    <section class="preloader">
+         <div class="spinner">
+              <span class="spinner-rotate"></span>
+         </div>
+    </section>
+
+    <!-- MENU -->
+    <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+         <div class="container">
+              <div class="navbar-header">
+                   <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                        <span class="icon icon-bar"></span>
+                   </button>
+                   <a href="#home" class="navbar-brand">Soft Landing</a>
+              </div>
+              <div class="collapse navbar-collapse">
+                   <ul class="nav navbar-nav">
+                        <li><a href="#home" class="smoothScroll">Home</a></li>
+                   </ul>
+                   <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Team - <span>뱅쇼</span></a></li>
+                   </ul>
+              </div>
+         </div>
+    </section>
+
+    <!-- HOME -->
+    <section id="home" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-3 col-md-6 col-sm-12">
+                    <div class="home-info">
+                        <h3>Personal Audio Description Service</h3>
+                        <h1>We help you watch your videos successfully!</h1>
+                        <!-- Upload Form -->
+                        <form id="video-form" class="online-form"
+                            style="position: relative; max-width:700px; margin:0 auto;">
+                            <input
+                                type="file"
+                                id="video-input"
+                                name="video"
+                                class="form-control"
+                                style="width:90%; padding: 12px 160px 12px 20px; border-radius:50px; border:1px solid #ccc;"
+                                accept="video/mp4"
+                                required
+                            >
+                            <button
+                                type="button"
+                                id="start-btn"
+                                class="form-control"
+                                style="position: absolute; top: 0; right: 0; height: 100%; width: 150px; border: none; border-radius: 0 50px 50px 0;"
+                            >
+                                Get started
+                            </button>
+                        </form>
+
+                        <div id="output-section" style="margin-top:20px; display:none;">
+                            <h4>분석 결과 영상</h4>
+                            <video id="output-video" controls style="width:100%;"></video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer" data-stellar-background-ratio="0.5">
+         <div class="container">
+              <div class="row">
+                   <div class="copyright-text col-md-12 col-sm-12">
+                        <div class="col-md-6 col-sm-6">
+                             <p>Copyright &copy; 2018 Company Name - Design:
+                               <a rel="nofollow" href="http://tooplate.com">Tooplate</a></p>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                             <ul class="social-icon">
+                                  <li><a href="#" class="fa fa-facebook-square"></a></li>
+                                  <li><a href="#" class="fa fa-twitter"></a></li>
+                                  <li><a href="#" class="fa fa-instagram"></a></li>
+                             </ul>
+                        </div>
+                   </div>
+              </div>
+         </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.stellar.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/smoothscroll.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+
+    <!-- Upload Logic -->
+    <script>
+    document.getElementById('start-btn').addEventListener('click', async function () {
+        const input = document.getElementById('video-input');
+        if (!input.files.length) {
+            alert('영상을 선택하세요.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('video', input.files[0]);
+
+        const aiServerUrl = 'http://127.0.0.1:5000/analyze';  // 필요시 변경
+
+        const btn = this;
+        btn.disabled = true;
+        btn.textContent = '분석 중...';
+
+        try {
+            const response = await fetch(aiServerUrl, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error('AI 서버 오류 (' + response.status + ')');
+            }
+
+            const resultBlob = await response.blob();
+            const videoUrl = URL.createObjectURL(resultBlob);
+
+            document.getElementById('output-section').style.display = 'block';
+            const outputVideo = document.getElementById('output-video');
+            outputVideo.src = videoUrl;
+            outputVideo.load();
+            outputVideo.play();
+        } catch (err) {
+            alert('분석 중 오류가 발생했습니다: ' + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Get started';
+        }
+    });
+    </script>
+
+</body>
+</html>

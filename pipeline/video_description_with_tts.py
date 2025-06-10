@@ -5,12 +5,15 @@ from datetime import datetime
 import os
 import json
 import tempfile
+from pathlib import Path
+import sys
 
 from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip
 from pydub import AudioSegment
 import imageio_ffmpeg as ffmpeg_builder
 from melo.api import TTS
 
+BASE_DIR = Path(__file__).parent.parent  # 프로젝트 루트
 
 # 자막 타임스탬프 문자열을 datetime 객체로 변환하는 함수
 def parse_timestamp_range(ts_range):
@@ -21,15 +24,15 @@ def parse_timestamp_range(ts_range):
     return start, end
 
 # 파일 불러오기
-with open("video_script_large.json", "r", encoding="utf-8") as f:
+with open(BASE_DIR / 'video_script_large.json', "r", encoding="utf-8") as f:
     dialogues = json.load(f)
 
-with open("captions.json", "r", encoding="utf-8") as f:
+with open(BASE_DIR / 'final_caption.json', "r", encoding="utf-8") as f:
     captions = json.load(f)
 
 # 캡션 타임스탬프 기준 정렬
 caption_list = []
-for key, value in captions.items():
+for value in captions:
     start, end = parse_timestamp_range(value["timestamp"])
     caption_list.append({
         "timestamp": value["timestamp"],
@@ -55,11 +58,10 @@ for caption in caption_list:
     })
 
 # 결과 저장
-with open("captions_dialogue.json", "w", encoding="utf-8") as f:
+with open(BASE_DIR / 'captions_dialogue.json', "w", encoding="utf-8") as f:
     json.dump(merged, f, ensure_ascii=False, indent=2)
 
 print("병합 완료: captions_dialogue.json")
-
 
 
 # ffmpeg 경로 설정
@@ -100,12 +102,12 @@ def generate_tts_audio(text, speed=1.2):
     return tmp_mp3_file.name
 
 def main():
-    json_path = "captions_dialogue.json"
+    json_path = BASE_DIR / 'captions_dialogue.json'
     with open(json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    video_path = "testvideo.mp4"
-    video = VideoFileClip(video_path)
+    video_path = Path(sys.argv[1])
+    video = VideoFileClip(str(video_path))
     original_audio = video.audio
 
     tts_audio_clips = []
@@ -140,9 +142,9 @@ def main():
 
     final_video = video.set_audio(composite_audio)
 
-    output_path = "melotts_output.mp4"
+    output_path = BASE_DIR / 'results' / 'video_output.mp4'
     final_video.write_videofile(
-        output_path,
+        str(output_path),
         codec="libx264",
         audio_codec="aac",
         temp_audiofile="temp-audio.m4a",

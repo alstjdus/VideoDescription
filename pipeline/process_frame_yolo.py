@@ -2,9 +2,16 @@ from ultralytics import YOLO
 import json
 import cv2
 
-video_path          = "testvideo.mp4"
-input_json_path         = "deepface_ocr.json"
-output_json_path           = "./yolo_results.json"
+from pathlib import Path
+import sys
+
+BASE_DIR = Path(__file__).parent.parent  # 프로젝트 루트
+
+video_path = Path(sys.argv[1])  # 전달받은 비디오 경로 (ex. uploads/testvideo-uuid1234.mp4)
+
+input_json_path = BASE_DIR / "deepface_ocr.json"
+output_json_path = BASE_DIR / "yolo_results.json"
+
 #input_path_no_bbox  = save_path
 #output_path_no_bbox = ./results_no_bbox.json"
 #input_path          = output_path_no_bbox
@@ -28,7 +35,7 @@ with open(input_json_path, "r", encoding="utf-8") as f:
     data = json.load(f)
 
 # 비디오 로드
-cap = cv2.VideoCapture(video_path)
+cap = cv2.VideoCapture(str(video_path))
 fps = cap.get(cv2.CAP_PROP_FPS)
 
 # 각 항목에 대해 YOLO 분석 수행

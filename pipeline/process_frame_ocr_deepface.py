@@ -5,10 +5,18 @@ import cv2
 import easyocr
 from deepface import DeepFace
 
-# ---------------- 설정 ----------------
-image_folder = "./keyframes_pyscenedetect/testvideo/"
-timestamp_json_path = "./keyframes_pyscenedetect/testvideo/keyframes_timestamp.json"
-output_path = "deepface_ocr.json"
+import sys
+from pathlib import Path
+
+BASE_DIR = Path(__file__).parent.parent  # capstone 디렉토리
+
+video_path = Path(sys.argv[1])  # 전달받은 비디오 경로
+video_name = video_path.stem    # "testvideo-uuid1234"
+
+image_folder = BASE_DIR / "keyframes_pyscenedetect" / video_name
+timestamp_json_path = image_folder / "keyframes_timestamp.json"
+output_path = BASE_DIR / "deepface_ocr.json"
+
 
 # OCR 설정
 UPSCALE_FACTOR = 2

@@ -2,10 +2,11 @@ import cv2
 import json
 from pathlib import Path
 from scenedetect import detect, ContentDetector
+import sys
 
 # 사용 예시
-BASE_OUTPUT_DIR = Path('./keyframes_pyscenedetect')
-LOCAL_VIDEO_PATH = Path('testvideo.mp4')
+LOCAL_VIDEO_PATH = Path(sys.argv[1])
+BASE_OUTPUT_DIR = Path('./keyframes_pyscenedetect') / LOCAL_VIDEO_PATH.stem
 
 def format_timecode(timecode):
     return str(timecode).replace('.', ',')
@@ -48,6 +49,6 @@ def detect_scenes_and_save_keyframes_with_metadata(video_path: str, output_dir: 
 
 
 video_name = LOCAL_VIDEO_PATH.stem
-output_dir = BASE_OUTPUT_DIR / video_name
+output_dir = BASE_OUTPUT_DIR
 
 detect_scenes_and_save_keyframes_with_metadata(LOCAL_VIDEO_PATH, output_dir)

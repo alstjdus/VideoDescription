@@ -51,10 +51,6 @@ venv_tts\Scripts\python.exe pipeline/video_description_with_tts.py %VIDEO%
 
 REM FINAL: Copy result
 echo [FINAL] Copying result file...
-if not exist video_output.mp4 (
-    echo [ERROR] video_output.mp4 file does not exist.
-    exit /b 1
-)
 copy video_output.mp4 results\%OUTNAME%
 
 echo [DONE] Pipeline execution completed successfully.

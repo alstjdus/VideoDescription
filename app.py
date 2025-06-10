@@ -45,7 +45,7 @@ def analyze():
         print('stderr:', result.stderr)
 
         # 결과 파일이 있다고 가정하는 경로 지정 (예: TTS 결과가 이 이름으로 저장된다고 가정)
-        output_filename = unique_id + '_final.mp4'
+        output_filename = 'video_output.mp4'
         output_path = os.path.join(RESULT_FOLDER, output_filename)
 
         if not os.path.exists(output_path):

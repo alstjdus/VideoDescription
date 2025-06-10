@@ -6,27 +6,28 @@ import shutil
 import sys
 import os
 
-# ffmpeg 설치 확인
-# if shutil.which("ffmpeg") is None:
-#     print("ffmpeg가 설치되어 있지 않습니다. https://ffmpeg.org/download.html 에서 설치 후, 환경 변수 PATH에 추가하세요.")
-#     sys.exit(1)
+from pathlib import Path
 
-# 경로 설정
-input_path  = "testvideo.mp4"
-output_path = "video_script_large.json"
 
-# 프로젝트 내 ffmpeg.exe 경로
-ffmpeg_path = os.path.abspath("ffmpeg.exe")
-ffmpeg_dir = os.path.dirname(ffmpeg_path)
+BASE_DIR = Path(__file__).parent  # pipeline 폴더 경로
 
-# 현재 PATH에 ffmpeg 디렉토리 추가 (임시)
-os.environ["PATH"] = ffmpeg_dir + os.pathsep + os.environ["PATH"]
+# ffmpeg 경로 설정
+ffmpeg_path = BASE_DIR / "ffmpeg.exe"
+ffmpeg_dir = str(ffmpeg_path.parent)
+os.environ["PATH"] = ffmpeg_dir + os.pathsep + os.environ.get("PATH", "")
+
+# 입력 비디오 경로
+video_path = Path(sys.argv[1])
+video_name = video_path.stem
+
+input_path = str(video_path)  # whisper에 str로 전달
+output_path = BASE_DIR.parent / "video_script_large.json"  # 프로젝트 루트 기준 저장
 
 # 모델 로드
 model = whisper.load_model("large-v2")
 
 # 음성 인식
-result = model.transcribe(input_path, task="transcribe", language="ko", fp16=False)
+result = model.transcribe(str(input_path), task="transcribe", language="ko", fp16=False)
 segments = result.get("segments", [])
 
 # 타임스탬프 포맷 함수

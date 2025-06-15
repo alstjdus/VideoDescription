@@ -8,7 +8,7 @@ app = Flask(__name__)
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 UPLOAD_FOLDER = os.path.join(BASE_DIR, 'uploads')
 RESULT_FOLDER = os.path.join(BASE_DIR, 'results')
-BATCH_SCRIPT = os.path.join(BASE_DIR, 'run_pipeline.bat')
+SCRIPT_PATH = os.path.join(BASE_DIR, 'run_pipeline.sh')  # Linux용 .sh 파일로 수정
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(RESULT_FOLDER, exist_ok=True)
@@ -31,21 +31,19 @@ def analyze():
     print(f"[INFO] 업로드된 파일 저장 완료: {video_path}")
 
     try:
-        # run_pipeline.bat에 입력 파일 경로만 전달
+        # run_pipeline.sh에 실행 권한 부여
+        subprocess.run(['chmod', '+x', 'run_pipeline.sh'], cwd=BASE_DIR, check=True)
+
+        # 파이프라인 실행 (bash 사용)
         result = subprocess.run(
-            ['cmd.exe', '/c', BATCH_SCRIPT, video_path, output_filename],
-            shell=True,
+            ['bash', 'run_pipeline.sh', video_path, output_filename],
             check=True,
-            cwd=BASE_DIR,
-            stdout=None,  # 실시간 터미널 출력
-            stderr=None
+            cwd=BASE_DIR
         )
 
-        print('stdout:', result.stdout)
-        print('stderr:', result.stderr)
+        print('[INFO] 파이프라인 실행 완료')
 
-        # 결과 파일이 있다고 가정하는 경로 지정 (예: TTS 결과가 이 이름으로 저장된다고 가정)
-        output_filename = 'video_output.mp4'
+        # 결과 파일 경로
         output_path = os.path.join(RESULT_FOLDER, output_filename)
 
         if not os.path.exists(output_path):
@@ -54,9 +52,8 @@ def analyze():
         return send_file(output_path, as_attachment=False, mimetype='video/mp4')
 
     except subprocess.CalledProcessError as e:
-        return jsonify({'error': '파이프라인 실행 실패', 'detail': e.stderr or str(e)}), 500
+        return jsonify({'error': '파이프라인 실행 실패', 'detail': str(e)}), 500
 
 if __name__ == '__main__':
-    import os
     port = int(os.environ.get('PORT', 5000))  # Render가 할당하는 포트 사용
     app.run(host='0.0.0.0', port=port)

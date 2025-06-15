@@ -57,4 +57,6 @@ def analyze():
         return jsonify({'error': '파이프라인 실행 실패', 'detail': e.stderr or str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get('PORT', 5000))  # Render가 할당하는 포트 사용
+    app.run(host='0.0.0.0', port=port)
